@@ -9,10 +9,12 @@ uri = os.environ['SCRAPER_APP_CONNECTION_STRING']
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 
-# Send a ping to confirm a successful connection
 try:
-    for db_info in client.list_database_names():
-        print(db_info)
+    db = client['sample_mflix']
+    collections = db.list_collection_names() # ['movies', 'sessions', 'theaters', 'users', 'embedded_movies', 'comments']
+    print(collections)
+    movies = db.get_collection('movies')
+    print(movies, '\n')
     client.close()
 except Exception as e:
     print(e)
