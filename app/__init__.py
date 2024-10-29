@@ -31,4 +31,10 @@ def create_app(test_config=None):
   def hello():
     return 'Hello, World'
   
+  @app.get('/')
+  def home():
+    client = db.connect_db()
+    names = client.list_database_names()
+    return ','.join(names)
+
   return app
