@@ -38,5 +38,9 @@ def create_app(test_config=None):
     client = db.connect_db()
     names = client.list_database_names()
     return ','.join(names)
+  
+  @app.get('/cors')
+  def cors():
+    return ["blahblah"]
 
   return app

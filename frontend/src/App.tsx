@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    fetch("http://localhost:5000/cors")
+      .then(response => response.json())
+      .then(data => setItems(data))
+  }, [])
 
   return (
     <>
@@ -18,9 +24,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <div>
+          data returned is {items}
+        </div>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
