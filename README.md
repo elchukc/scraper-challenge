@@ -14,3 +14,9 @@ To run the file that confirms we can connect to mongodb, first create an `.env` 
 SCRAPER_APP_CONNECTION_STRING=<your-connection-string>
 ```
 Then simply run `python3 app/db.py`.
+
+## Project Components:
+- Scraper
+- data-sorting pipeline & chatbot
+- MongoDB
+- SPA frontend
