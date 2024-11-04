@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 def create_app(test_config=None):
   # create and configure the app
@@ -10,6 +11,7 @@ def create_app(test_config=None):
     SECRET_KEY='dev',
     CONNECTION_STRING=os.environ['SCRAPER_APP_CONNECTION_STRING'],
   )
+  CORS(app)
 
   if test_config is None:
     # load the instance config, if it exists, when not testing
