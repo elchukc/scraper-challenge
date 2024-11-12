@@ -7,7 +7,7 @@ Tech stack must be Frontend: React, Redux | Backend & Cloud: Python, Flask, AWS
 ### Quickstart
 It is recommended to run this locally in a virtual env. Run `. venv .venv`.
 
-To run the Flask app, run `flask --app app run --debug` in your command line.
+To run the Flask app, run `flask --app frontend run --debug` in your command line. Then `pnpm dev` for the backend.
 
 To run the file that confirms we can connect to mongodb, first create an `.env` file in the root directory:
 ```

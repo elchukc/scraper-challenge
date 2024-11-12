@@ -7,7 +7,7 @@ function App() {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/cors")
+    fetch("http://localhost:5000/")
       .then(response => response.json())
       .then(data => setItems(data))
   }, [])
@@ -22,8 +22,9 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Paste a website url to see what our AI would ask</h1>
       <div className="card">
+        <input name='scrape-url' placeholder='paste url here' autoFocus />
         <div>
           data returned is {items}
         </div>

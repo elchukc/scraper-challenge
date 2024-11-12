@@ -10,6 +10,7 @@ def create_app(test_config=None):
   app.config.from_mapping(
     SECRET_KEY='dev',
     CONNECTION_STRING=os.environ['SCRAPER_APP_CONNECTION_STRING'],
+    OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
   )
   CORS(app)
 
@@ -37,10 +38,17 @@ def create_app(test_config=None):
   def home():
     client = db.connect_db()
     names = client.list_database_names()
-    return ','.join(names)
-  
+    return names
+
   @app.get('/cors')
   def cors():
     return ["blahblah"]
+
+  from . import scraper
+
+  @app.get("/url")
+  def scrape():
+    site_content = scraper.req()
+    return site_content
 
   return app
