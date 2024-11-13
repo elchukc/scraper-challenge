@@ -3,11 +3,11 @@ import { BsEyeglasses } from "react-icons/bs";
 import './App.css'
 
 function App() {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState("")
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
-      .then(response => response.json())
+    fetch("http://localhost:5000/url")
+      .then(response => response.text())
       .then(data => setItems(data))
   }, [])
 
