@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BsEyeglasses } from "react-icons/bs";
 import './App.css'
 
 function App() {
@@ -15,11 +14,8 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a href="https://bravecareer.notion.site/Mini-Challenge-Web-Scraper-for-Visitor-Classification-12966e26414d8047a44dc41fb4ad66d2" target="_blank">
+          <BsEyeglasses className="logo" size={90} />
         </a>
       </div>
       <h1>Paste a website url to see what our AI would ask</h1>
@@ -28,13 +24,7 @@ function App() {
         <div>
           data returned is {items}
         </div>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
