@@ -22,7 +22,7 @@ function App() {
       <div className="card">
         <input name='scrape-url' placeholder='paste url here' autoFocus />
         <div>
-          data returned is {items}
+          <p>{items}</p>
         </div>
       </div>
     </>

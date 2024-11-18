@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from langchain_openai import ChatOpenAI
-from flask import current_app
+from typing_extensions import Annotated, TypedDict, List
 
 # r = requests.get('https://realpython.github.io/fake-jobs/')
 # r = requests.get("https://www.chatsimple.ai/")
+class Question(TypedDict):
+  '''Question to ask user.'''
+  question: Annotated[str, ..., "Question about user's intent."]
+  answers: Annotated[List[str], ..., "Potential answers to this question."]
 
 def req():
   from . import chatbot
@@ -28,10 +31,11 @@ def req():
       "title: {}, {}".format(soup.title, all_of_tag(soup, 'h2')),
     ),
   ]
-  questions = llm.invoke(messages)
-  print(questions.content)
+  structured_llm = llm.with_structured_output(Question)
+  questions = structured_llm.invoke(messages)
+  print(questions)
 
-  return questions.content
+  return questions
 
 def all_of_tag(soup: BeautifulSoup, tag: str):
   return list(map(lambda item: item.string.strip(), soup.find_all('h2')))
