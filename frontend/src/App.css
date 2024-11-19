@@ -35,6 +35,10 @@
 
 .card {
   padding: 2em;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  display: flexbox;
+  background-color:cadetblue
 }
 
 .read-the-docs {

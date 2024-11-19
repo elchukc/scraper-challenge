@@ -19,10 +19,11 @@ function App() {
         <a href="https://bravecareer.notion.site/Mini-Challenge-Web-Scraper-for-Visitor-Classification-12966e26414d8047a44dc41fb4ad66d2" target="_blank">
           <BsEyeglasses className="logo" size={90} />
         </a>
-      </div>
-      <h1>Paste a website url to see what our AI would ask</h1>
-      <div className="card">
+        <h1>Paste a website url to see what our AI would ask</h1>
         <input name='scrape-url' placeholder='paste url here' autoFocus />
+      </div>
+      <br />
+      <div>
         <Suspense fallback={<div>Loading...</div>}>
           <QuestionCard questionPromise={getAiQuestions()} />
         </Suspense>
