@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import { BsEyeglasses } from "react-icons/bs";
 import './App.css'
+import { Question, QuestionCard } from './Question';
+
+export const getAiQuestions: () => Promise<Question> = async () => {
+  const response = await fetch("http://localhost:5000/url")
+  if (!response.ok) {
+    throw new Error("Failed to fetch chatbot messages")
+  }
+  return response.json()
+}
 
 function App() {
-  const [items, setItems] = useState("")
-
-  useEffect(() => {
-    fetch("http://localhost:5000/url")
-      .then(response => response.text())
-      .then(data => setItems(data))
-  }, [])
 
   return (
     <>
@@ -21,9 +23,9 @@ function App() {
       <h1>Paste a website url to see what our AI would ask</h1>
       <div className="card">
         <input name='scrape-url' placeholder='paste url here' autoFocus />
-        <div>
-          <p>{items}</p>
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <QuestionCard questionPromise={getAiQuestions()} />
+        </Suspense>
       </div>
     </>
   )
