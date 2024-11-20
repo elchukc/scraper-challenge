@@ -3,7 +3,7 @@ import { BsEyeglasses } from "react-icons/bs";
 import './App.css'
 import { Question, QuestionCard } from './Question';
 
-export const getAiQuestions: () => Promise<Question> = async () => {
+export const getAiQuestions: () => Promise<{ questions: Question[] }> = async () => {
   const response = await fetch("http://localhost:5000/url")
   if (!response.ok) {
     throw new Error("Failed to fetch chatbot messages")
@@ -25,7 +25,7 @@ function App() {
       <br />
       <div>
         <Suspense fallback={<div>Loading...</div>}>
-          <QuestionCard questionPromise={getAiQuestions()} />
+          <QuestionCard questionsPromise={getAiQuestions()} />
         </Suspense>
       </div>
     </>

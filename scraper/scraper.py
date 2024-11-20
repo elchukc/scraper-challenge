@@ -9,6 +9,9 @@ class Question(TypedDict):
   question: Annotated[str, ..., "Question about user's intent."]
   answers: Annotated[List[str], ..., "Potential answers to this question."]
 
+class Questions(TypedDict):
+  questions: Annotated[List[Question], ..., "List of questions to figure out the user's intent."]
+
 def req():
   from . import chatbot
   # r = requests.get('https://realpython.github.io/fake-jobs/')
@@ -31,7 +34,7 @@ def req():
       "title: {}, {}".format(soup.title, all_of_tag(soup, 'h2')),
     ),
   ]
-  structured_llm = llm.with_structured_output(Question)
+  structured_llm = llm.with_structured_output(Questions)
   questions = structured_llm.invoke(messages)
   print(questions)
 
