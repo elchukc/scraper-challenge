@@ -23,7 +23,7 @@ function App() {
         <input name='scrape-url' placeholder='paste url here' autoFocus />
       </div>
       <br />
-      <div>
+      <div className='board'>
         <Suspense fallback={<div>Loading...</div>}>
           <QuestionCard questionsPromise={getAiQuestions()} />
         </Suspense>

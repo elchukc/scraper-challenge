@@ -30,21 +30,6 @@ def create_app(test_config=None):
   from . import db
   db.init_app(app)
 
-  # a simple page that says hello
-  @app.route('/hello')
-  def hello():
-    return 'Hello, World'
-  
-  @app.get('/')
-  def home():
-    client = db.connect_db()
-    names = client.list_database_names()
-    return names
-
-  @app.get('/cors')
-  def cors():
-    return ["blahblah"]
-
   from . import scraper
 
   @app.get("/url")

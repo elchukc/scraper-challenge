@@ -19,26 +19,24 @@ export const QuestionCard: FC<Props> = ({ questionsPromise }) => {
     }
     return (
         <>
-            {questions.map((e) => {
+            {questions.map((e, i) => {
                 return (
-                    <div className="card">
-                    <h2>{e.question}</h2>
-                    <ul>
-                        {e.answers.map((a) => {
-                            return <Choice question={e.question} choice={a} onClick={postAnswer} />
-                        })}
-                    </ul>
-                </div>
+                    <div className="card" key={`${e.question}-${i}`}>
+                        <h2>{e.question}</h2>
+                        <ul>
+                            {e.answers.map((a, j) => {
+                                return (
+                                    <li key={`${e.question}-choice-${j}`}>
+                                        <button onClick={async () => {
+                                            await postAnswer(e.question, a)
+                                        }}>{e.question}</button>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
                 )
             })}
         </>
-    )
-}
-
-const Choice: FC<{ question: string, choice: string, onClick: (question: string, answer:string) => Promise<void> }> = ({ question, onClick, choice }) => {
-    return (
-        <li key={choice}>
-            <button onClick={async () => await onClick(question, choice)}>{choice}</button>
-        </li>
     )
 }
