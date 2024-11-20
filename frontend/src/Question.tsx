@@ -19,8 +19,19 @@ export const QuestionCard: FC<Props> = ({ questionPromise }) => {
 
 const Choice: FC<{ choice: string }> = ({ choice }) => {
     return (
-        <li>
-            <button>{choice}</button>
+        <li key={choice}>
+            <button onClick={async () =>{
+                await fetch("http://localhost:5000/answer", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                    question: 'What is the primary reason you visit the Apple website?',
+                    answer: choice
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            }}>{choice}</button>
         </li>
     )
 }

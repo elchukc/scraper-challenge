@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -51,5 +51,22 @@ def create_app(test_config=None):
   def scrape():
     site_content = scraper.req()
     return site_content
+
+  @app.post("/answer")
+  def answer():
+    print(request.get_json())
+    try:
+      client = db.connect_db()
+      collection = client["site_user_survey"]["user_answers"]
+      res = collection.insert_one(request.get_json())
+      if not res.acknowledged:
+        raise Exception("Couldn't insert data: ", request.get_json())
+      client.close()
+
+      return { 'id': str(res.inserted_id) }
+
+    except Exception as e:
+      print("Error saving answer: ", e)
+      client.close()
 
   return app
