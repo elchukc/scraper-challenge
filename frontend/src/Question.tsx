@@ -9,13 +9,13 @@ export const QuestionCard: FC<Props> = ({ questionsPromise }) => {
         await fetch("http://localhost:5000/answer", {
             method: 'POST',
             body: JSON.stringify({
-            question,
-            answer
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+                question,
+                answer
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
     }
     return (
         <>
