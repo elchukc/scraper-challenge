@@ -6,7 +6,7 @@ def connect_ai():
 		# Create a new client and connect to the server
 		if 'llm' not in g:
 			llm = ChatOpenAI(
-				model="gpt-4o-mini",
+				model="gpt-4o",
 				temperature=0,
 				max_tokens=None,
 				timeout=5000,
