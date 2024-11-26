@@ -1,17 +1,38 @@
-import { Suspense } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { BsEyeglasses } from "react-icons/bs";
 import './App.css'
 import { Question, QuestionCard } from './Question';
 
-export const getAiQuestions: () => Promise<{ questions: Question[] }> = async () => {
-  const response = await fetch("http://localhost:5000/url")
-  if (!response.ok) {
-    throw new Error("Failed to fetch chatbot messages")
-  }
-  return response.json()
-}
-
 function App() {
+  const [aiQuestions, setAiQuestions] = useState<Question[]>([])
+  const [survey, setSurvey] = useState<{question: string; answer: string}[]>([])
+  const addQuestion = (question: string, answer: string) => {
+    setSurvey((e) => [...e, {question, answer}])
+  }
+
+  const getAiQuestions = useCallback(async () => {
+    const response = await fetch("http://localhost:5000/url")
+    if (!response.ok) {
+      throw new Error("Failed to fetch chatbot messages")
+    }
+    const res: { questions: Question[] } = await response.json()
+    setAiQuestions(res.questions)
+  }, [])
+
+  const postCategorize = useCallback(async () => {
+    console.log("Sending data:", survey)
+    await fetch("http://localhost:5000/categorize", {
+      method: 'POST',
+      body: JSON.stringify(survey),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }, [survey])
+
+  useEffect(() => {
+    getAiQuestions()
+  }, [getAiQuestions])
 
   return (
     <>
@@ -24,10 +45,10 @@ function App() {
       </div>
       <br />
       <div className='board'>
-        <Suspense fallback={<div>Loading...</div>}>
-          <QuestionCard questionsPromise={getAiQuestions()} />
-        </Suspense>
+        <QuestionCard questions={aiQuestions} onAnswer={addQuestion} />
       </div>
+      <div hidden>Your final stereotype: {"LLM's verdict here"}</div>
+      <button onClick={async () => await postCategorize()}>Categorize me!</button>
     </>
   )
 }

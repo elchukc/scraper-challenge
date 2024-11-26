@@ -1,25 +1,16 @@
-import { FC, use } from "react"
+import { FC } from "react"
 
 export type Question = { question: string; answers: string[] }
-type Props = { questionsPromise: Promise<{ questions: Question[] }> }
+type Props = {
+    questions: Question[];
+    onAnswer: (question: string, answer: string) => void;
+}
 
-export const QuestionCard: FC<Props> = ({ questionsPromise }) => {
-    const { questions } = use(questionsPromise)
-    const postAnswer = async (question: string, answer: string) =>{
-        await fetch("http://localhost:5000/answer", {
-            method: 'POST',
-            body: JSON.stringify({
-                question,
-                answer
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-    }
+export const QuestionCard: FC<Props> = (props) => {
+
     return (
         <>
-            {questions.map((e, i) => {
+            {props.questions.map((e, i) => {
                 return (
                     <div className="card" key={`${e.question}-${i}`}>
                         <h2>{e.question}</h2>
@@ -27,9 +18,9 @@ export const QuestionCard: FC<Props> = ({ questionsPromise }) => {
                             {e.answers.map((a, j) => {
                                 return (
                                     <li key={`${e.question}-choice-${j}`}>
-                                        <button onClick={async () => {
-                                            await postAnswer(e.question, a)
-                                        }}>{a}</button>
+                                        <button onClick={() => props.onAnswer(e.question, a)}>
+                                            {a}
+                                        </button>
                                     </li>
                                 )
                             })}

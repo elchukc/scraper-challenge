@@ -1,3 +1,4 @@
+import json
 import os
 from flask import Flask, request
 from dotenv import load_dotenv
@@ -39,7 +40,7 @@ def create_app(test_config=None):
 
   @app.post("/answer")
   def answer():
-    print(request.get_json())
+    print(request.json)
     try:
       client = db.connect_db()
       collection = client["site_user_survey"]["user_answers"]
@@ -53,5 +54,27 @@ def create_app(test_config=None):
     except Exception as e:
       print("Error saving answer: ", e)
       client.close()
+
+  @app.post("/categorize")
+  def categorize():
+    from . import chatbot
+    llm = chatbot.connect_ai()
+    messages = [
+      (
+        "system", "The user has answered some questions about why they are visiting a website."
+      ),
+      (
+        "system", "Based on these answers, categorize the user based on intent."
+      ),
+      (
+        "user", json.dumps(request.json)
+      )
+    ]
+    print("REQUEST JSON ", request.get_json())
+    category = llm.invoke(messages)
+
+    print("\nCategory: ", category)
+    # TODO get llm to return enum and return it in api
+    return { 'id': "ok"}
 
   return app
