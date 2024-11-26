@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -64,17 +64,15 @@ def create_app(test_config=None):
         "system", "The user has answered some questions about why they are visiting a website."
       ),
       (
-        "system", "Based on these answers, categorize the user based on intent."
+        "system", "Categorize the user based on intent. Answer in one word."
       ),
       (
         "user", json.dumps(request.json)
       )
     ]
-    print("REQUEST JSON ", request.get_json())
     category = llm.invoke(messages)
 
-    print("\nCategory: ", category)
-    # TODO get llm to return enum and return it in api
-    return { 'id': "ok"}
+    # TODO get llm to return enum
+    return jsonify(category.content)
 
   return app

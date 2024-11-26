@@ -10,6 +10,18 @@ function App() {
     setSurvey((e) => [...e, {question, answer}])
   }
 
+  const [category, setCategory] = useState<null|string>(null)
+  const postCategorize = useCallback(async () => {
+    const verdict = await fetch("http://localhost:5000/categorize", {
+      method: 'POST',
+      body: JSON.stringify(survey),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    setCategory(await verdict.json())
+  }, [survey])
+
   const getAiQuestions = useCallback(async () => {
     const response = await fetch("http://localhost:5000/url")
     if (!response.ok) {
@@ -18,17 +30,6 @@ function App() {
     const res: { questions: Question[] } = await response.json()
     setAiQuestions(res.questions)
   }, [])
-
-  const postCategorize = useCallback(async () => {
-    console.log("Sending data:", survey)
-    await fetch("http://localhost:5000/categorize", {
-      method: 'POST',
-      body: JSON.stringify(survey),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }, [survey])
 
   useEffect(() => {
     getAiQuestions()
@@ -47,8 +48,10 @@ function App() {
       <div className='board'>
         <QuestionCard questions={aiQuestions} onAnswer={addQuestion} />
       </div>
-      <div hidden>Your final stereotype: {"LLM's verdict here"}</div>
-      <button onClick={async () => await postCategorize()}>Categorize me!</button>
+      {category
+        ? <div className="read-the-docs">Your final stereotype: {category}</div>
+        : <button onClick={async () => await postCategorize()}>Categorize me!</button>
+      }
     </>
   )
 }

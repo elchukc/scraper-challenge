@@ -42,9 +42,15 @@
   margin: 0.5rem;
   border-radius: 0.25rem;
   display: flexbox;
-  background-color: #535bf2;
+  background-color: #3a3a3a;;
 }
 
 .read-the-docs {
-  color: #888;
+  background-color: #747bff;
+  margin-left: 30%;
+  margin-right: 30%;
+  border-radius: 0.25rem;
+  color: #0f1922;
+  font-size: x-large;
+  padding: 1rem;
 }
