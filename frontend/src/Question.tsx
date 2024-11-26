@@ -29,7 +29,7 @@ export const QuestionCard: FC<Props> = ({ questionsPromise }) => {
                                     <li key={`${e.question}-choice-${j}`}>
                                         <button onClick={async () => {
                                             await postAnswer(e.question, a)
-                                        }}>{e.question}</button>
+                                        }}>{a}</button>
                                     </li>
                                 )
                             })}
